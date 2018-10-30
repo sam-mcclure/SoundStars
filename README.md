@@ -21,6 +21,8 @@ Additionally, users can reset the sky to have new stars, mute the audio playback
 
 ## Wireframes
 
+![alt text](mockup.png)
+
 ## Architecture and Technologies
 
 SoundStars will use the following technologies: 
