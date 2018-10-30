@@ -1,6 +1,5 @@
 const Star = require('./stars');
 const canvas = require("./canvas");
-console.log(canvas);
 const DIM_X = canvas.width;
 const DIM_Y = canvas.height;
 const NUM_STARS = 20;
@@ -9,6 +8,31 @@ class Sky {
     constructor(){
         this.stars = [];
         this.addStars();
+    }
+    
+    getCursorPosition(canv, event) {
+        let rect = canv.getBoundingClientRect();
+        let x = event.clientX - rect.left;
+        let y = event.clientY - rect.top;
+        return {x, y};
+    }
+
+    checkClickedStar(canv, event){
+        const cursorPos = this.getCursorPosition(canv, event);
+
+        this.stars.forEach((star) => {
+            let xPos = star.pos[0];
+            let yPos = star.pos[1];
+            let r = star.radius;
+            if (cursorPos.x <= xPos + r && 
+                cursorPos.x >= xPos - r &&
+                cursorPos.y <= yPos + r &&
+                cursorPos.y >= yPos - r){
+                    star.selected = true;
+                    console.log("selected star");
+                }
+
+        });
     }
 
     addStars(){

@@ -6,4 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const ctx = canvas.getContext("2d");
     const sky = new Sky();
     sky.draw(ctx);
+    canvas.addEventListener('click', () =>
+        sky.checkClickedStar(canvas, event), false);
 });
