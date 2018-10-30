@@ -2,7 +2,7 @@ const Star = require('./stars');
 const canvas = require("./canvas");
 const DIM_X = canvas.width;
 const DIM_Y = canvas.height;
-const NUM_STARS = 20;
+const NUM_STARS = 17;
 
 class Sky {
     constructor(){
@@ -28,8 +28,7 @@ class Sky {
                 cursorPos.x >= xPos - r &&
                 cursorPos.y <= yPos + r &&
                 cursorPos.y >= yPos - r){
-                    star.selected = true;
-                    console.log("selected star");
+                    star.playSound();
                 }
 
         });
@@ -38,7 +37,8 @@ class Sky {
     addStars(){
         for (let i = 0; i < NUM_STARS; i++ ){
             this.stars.push(new Star({
-                pos: this.randomPosition()
+                pos: this.randomPosition(),
+                idx: i
             }));
         }
     }
