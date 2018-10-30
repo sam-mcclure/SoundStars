@@ -5,3 +5,4 @@ const innerHeight = window.innerHeight;
 canvas.width = innerWidth;
 canvas.height = innerHeight - 60;
 
+module.exports = canvas;

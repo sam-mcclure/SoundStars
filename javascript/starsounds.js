@@ -1,7 +1,9 @@
+const Sky = require("./lib/sky");
+
 document.addEventListener('DOMContentLoaded', () => {
     const root = document.getElementById('root');
-    const canvas = document.getElementById('canvas');
-    // let c = canvas.getContext("2d");
-    // c.fillStyle = 'black';
-    // c.fillRect(100, 100, 400, 300);
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    const sky = new Sky();
+    sky.draw(ctx);
 });
