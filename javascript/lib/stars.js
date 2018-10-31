@@ -21,7 +21,7 @@ const SOUNDS = [
 class Star {
     constructor(values) {
         this.pos = values.pos;
-        this.radius = Math.floor(Math.random() * 7) + 3; 
+        this.radius = Math.floor(Math.random() * 7) + 4; 
         this.color = "white";
         this.sound = SOUNDS[values.idx];
     }

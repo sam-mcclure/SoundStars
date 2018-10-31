@@ -1,3 +1,7 @@
+body {
+    background-color: black;
+}
+
 #canvas {
     background: black; 
     display: block; 
@@ -10,4 +14,33 @@ h1 {
     text-align: center;
     padding-top: 20px;
     font-size: 40px;
+}
+
+.footer {
+    display:flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+button {
+    display: block;
+    color: white;
+    border: 2px solid white;
+    border-radius: 3px;
+    height: 35px;
+    margin-bottom: 30px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+#sequence {
+    width: 130px;
+}
+
+#reset {
+    width: 75px;
+}
+
+button:hover {
+    box-shadow: 1px 1px 10px 3px white;
 }
