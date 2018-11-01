@@ -21,7 +21,7 @@ const SOUNDS = [
 class Star {
     constructor(values) {
         this.pos = values.pos;
-        this.radius = Math.floor(Math.random() * 7) + 3; 
+        this.radius = Math.floor(Math.random() * 7) + 4; 
         this.color = "white";
         this.sound = SOUNDS[values.idx];
     }
@@ -33,13 +33,38 @@ class Star {
     }
 
     draw(ctx){
+        // this.clearShadow(ctx);
+  
+
         ctx.fillStyle = this.color;
         ctx.shadowColor = "white";
         ctx.shadowBlur = 20;
         ctx.beginPath();
         ctx.arc( this.pos[0], this.pos[1], this.radius, 0, 2 * Math.PI, true);
         ctx.fill();
+        ctx.closePath();
     }
+
+    drawSelected(ctx){
+
+        ctx.fillStyle = this.color;
+        ctx.shadowColor = "yellow";
+        ctx.shadowBlur = 30;
+        ctx.beginPath();
+        ctx.arc(this.pos[0], this.pos[1], this.radius, 0, 2 * Math.PI, true);
+        ctx.fill();
+    }
+
+    // clearShadow(ctx){
+    //     ctx.fillStyle = this.color;
+    //     ctx.shadowColor = null;
+    //     ctx.shadowBlur = null;
+    //     ctx.beginPath();
+    //     ctx.arc(this.pos[0], this.pos[1], this.radius, 0, 2 * Math.PI, true);
+    //     ctx.fill();
+    //     ctx.closePath();
+    // }
+
 }
 
 module.exports = Star;
