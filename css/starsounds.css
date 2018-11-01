@@ -1,5 +1,6 @@
 body {
     background-color: black;
+    font-family: 'Ubuntu', sans-serif;
 }
 
 #canvas {
@@ -13,7 +14,7 @@ h1 {
     background-color: black;
     text-align: center;
     padding-top: 20px;
-    font-size: 40px;
+    font-size: 50px;
 }
 
 .footer {
@@ -30,17 +31,17 @@ button {
     height: 35px;
     margin-bottom: 30px;
     margin-top: 10px;
+    margin-left: 30px;
     text-align: center;
-}
-
-#sequence {
-    width: 130px;
-}
-
-#reset {
-    width: 75px;
+    padding: 2px 20px 2px 20px;
+    font-size: 16px;
 }
 
 button:hover {
     box-shadow: 1px 1px 10px 3px white;
+}
+
+.reset-buttons {
+    display: flex;
+    justify-content: space-between;
 }

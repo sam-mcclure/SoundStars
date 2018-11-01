@@ -5,8 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
 
-    const reset = document.getElementById('reset');
+    const newSky = document.getElementById('new-sky');
     const sequence = document.getElementById('sequence');
+    const clearSky = document.getElementById('clear-sky');
 
     const sky = new Sky();
     sky.draw(ctx);
@@ -19,10 +20,12 @@ document.addEventListener('DOMContentLoaded', () => {
         sky.lineDrag(canvas, event), false);
     canvas.addEventListener("mouseup", () => 
         sky.lineEnd(canvas, event), false);
-    reset.addEventListener('click', () => 
+    newSky.addEventListener('click', () => 
         location.reload(), false);
     sequence.addEventListener("click", () => 
         sky.playSequence(), false);
+    clearSky.addEventListener('click', () => 
+        sky.clear(), false);
 
 
 });
