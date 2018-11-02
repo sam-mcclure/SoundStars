@@ -229,33 +229,44 @@ class Sky {
     context.stroke();
   }
 
+  checkOverlapStars(xCoord, yCoord){
+    this.stars.forEach((star) => {
+      if ((xCoord <= star.pos[0] + star.radius + 15 &&
+        xCoord >= star.pos[0] - star.radius - 15)) {
+        xCoord += 50;
+      }
+
+      if ((yCoord <= star.pos[1] + star.radius + 15 &&
+        yCoord >= star.pos[1] - star.radius - 15)) {
+        yCoord += 50;
+      }
+    });
+
+    return [xCoord, yCoord];
+  }
+
   randomPosition() {
     let xCoord = DIM_X * Math.random();
     let yCoord = DIM_Y * Math.random();
 
-    this.stars.forEach((star) => {
-        if ((xCoord <= star.pos[0] + star.radius + 10 &&
-            xCoord >= star.pos[0] - star.radius + 10)) {
-            xCoord += 40;
-        }
+    let noOverlap = false;
 
-        if ((yCoord <= star.pos[1] + star.radius + 10 &&
-            yCoord >= star.pos[1] - star.radius + 10)) {
-            yCoord += 40;
-        }
-    });
+    while (noOverlap === false) {
 
-    if (xCoord < 50) {
-      xCoord += 50;
-    } else if (xCoord >= DIM_X - 50) {
-      xCoord -= 50;
+      let changedCoords = this.checkOverlapStars(xCoord, yCoord);
+      xCoord = changedCoords[0];
+      yCoord = changedCoords[1];
+
+      if (xCoord < 50 || xCoord >= DIM_X - 50) {
+        xCoord = DIM_X * Math.random();
+      } else if (yCoord < 50 || yCoord >= DIM_Y - 50) {
+        yCoord = DIM_Y * Math.random();
+      } else {
+        noOverlap = true;
+      }
     }
+    
 
-    if (yCoord < 50) {
-      yCoord += 50;
-    } else if (yCoord >= DIM_Y - 50) {
-      yCoord -= 50;
-    }
     return [xCoord, yCoord];
   }
 
@@ -383,7 +394,7 @@ class Star {
 
     draw(ctx){
         ctx.fillStyle = this.color;
-        ctx.shadowColor = "white";
+        ctx.shadowColor = this.color;
         ctx.shadowBlur = 20;
         ctx.beginPath();
         ctx.arc( this.pos[0], this.pos[1], this.radius, 0, 2 * Math.PI, true);
