@@ -6,11 +6,15 @@
     <link rel="stylesheet" href="./css/reset.css">
     <link rel="stylesheet" href="./css/starsounds.css">
     <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns"
+    crossorigin="anonymous">
     <title>SoundStars</title>
 </head>
 <body>
     <div id="root">
-    <h1>SoundStars</h1>
+        <div class="header">
+            <h1>SoundStars</h1>
+        </div>
     <div class="instructions">
        <p>Click a star to hear a sound! Click and drag from one star to another to start drawing your constellation</p> 
        <p>When you're ready, use the buttons below to play your sequence or start over!</p>
@@ -19,9 +23,23 @@
     <audio src="" id="audio" type="audio/wav"></audio>
     <div class="footer">
         <button id="sequence">Play Sequence!</button>
-        <div class="reset-buttons">
-            <button id="clear-sky">Clear Sky</button>
-            <button id="new-sky">New Sky</button>
+        <div class="content-right">
+            <div class="reset-buttons">
+                <button id="clear-sky">Clear Sky</button>
+                <button id="new-sky">New Sky</button> 
+            </div>
+            <div class='links'>
+                <a target="_blank"
+                rel="noopener noreferrer"
+                href="https://github.com/sam-mcclure/SoundStars">
+                    <i class="fab fa-github"></i>
+                </a>
+                
+                <a target="_blank"
+                rel="noopener noreferrer"
+                href="https://www.linkedin.com/in/sam-mcclure-developer/">
+                    <i class="fab fa-linkedin-in"></i></a>
+            </div>
         </div>
     </div>
     </div>
@@ -29,3 +47,4 @@
     <script src="bundle.js"></script>
 </body>
 </html>
+

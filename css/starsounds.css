@@ -52,3 +52,20 @@ button:hover {
     display: flex;
     justify-content: space-between;
 }
+
+.fab {
+      font-size: 36px;
+      color: white;
+      padding-right: 20px;
+}
+
+.content-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.links {
+    margin-left: 100px;
+    padding-bottom: 20px;
+}
