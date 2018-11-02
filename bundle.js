@@ -368,13 +368,17 @@ class Star {
         this.pos = values.pos;
         this.radius = Math.floor(Math.random() * 7) + 4; 
         this.color = "white";
-        this.sound = SOUNDS[values.idx];
+
+        let audio = document.createElement('audio');
+        audio.setAttribute("src", SOUNDS[values.idx]);
+        document.body.appendChild(audio);
+
+        this.audio = audio;
     }
 
     playSound(){
-        let audio = document.getElementById('audio');
-        audio.setAttribute("src", this.sound);
-        audio.play();
+        this.audio.currentTime = 0;
+        this.audio.play();
     }
 
     draw(ctx){
