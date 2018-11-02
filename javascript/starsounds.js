@@ -12,8 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const sky = new Sky();
     sky.draw(ctx);
 
-    // canvas.addEventListener('click', () =>
-    //     sky.checkClickedStar(canvas, event), false);
     canvas.addEventListener('mousedown', () => 
         sky.lineStart(canvas,event), false);
     canvas.addEventListener('mousemove', () =>

@@ -14,6 +14,7 @@ class Sky {
     this.dragStart = null;
     this.sequence = [];
     this.lines = [];
+    this.playing = false;
   }
 
   addStars() {
@@ -36,21 +37,23 @@ class Sky {
   playSequence() {
     let sequence = this.sequence;
     let draw = this.draw;
+    let that = this;
 
-    this.asyncLoop({
-      length: sequence.length,
-      functionToLoop: function(loop, i) {
-        setTimeout(function() {
-          let star = sequence[i];
-          star.drawSelected(context);
-          sequence[i].playSound();
-        //   star.draw(context);
-          loop();
-        }, 1000);
-      },
-      callback: function() {
-      }
-    });
+    if (this.playing === false){
+        this.playing = true;
+        this.asyncLoop({
+            length: sequence.length,
+            functionToLoop: function (loop, i) {
+                setTimeout(function () {
+                    let star = sequence[i];
+                    star.drawSelected(context);
+                    sequence[i].playSound();
+                    loop();
+                }, 1000);
+            },
+        });
+    }
+    
 
   }
 
@@ -62,14 +65,16 @@ class Sky {
 
     let loop = function() {
       i++;
-      if (i === o.length) {
-          setTimeout(function(){
+        setTimeout(function () {
             that.draw(context);
-          }, 1000);
-       
+        }, 1000);
+
+      if (i === o.length) {
+          that.playing = false;
         return;
       }
       o.functionToLoop(loop, i);
+      
     };
     loop();
   }
@@ -104,6 +109,18 @@ class Sky {
   randomPosition() {
     let xCoord = DIM_X * Math.random();
     let yCoord = DIM_Y * Math.random();
+
+    this.stars.forEach((star) => {
+        if ((xCoord <= star.pos[0] + star.radius + 10 &&
+            xCoord >= star.pos[0] - star.radius + 10)) {
+            xCoord += 40;
+        }
+
+        if ((yCoord <= star.pos[1] + star.radius + 10 &&
+            yCoord >= star.pos[1] - star.radius + 10)) {
+            yCoord += 40;
+        }
+    });
 
     if (xCoord < 50) {
       xCoord += 50;

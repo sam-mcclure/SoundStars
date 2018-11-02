@@ -33,9 +33,6 @@ class Star {
     }
 
     draw(ctx){
-        // this.clearShadow(ctx);
-  
-
         ctx.fillStyle = this.color;
         ctx.shadowColor = "white";
         ctx.shadowBlur = 20;
@@ -46,7 +43,6 @@ class Star {
     }
 
     drawSelected(ctx){
-
         ctx.fillStyle = this.color;
         ctx.shadowColor = "yellow";
         ctx.shadowBlur = 30;
@@ -54,16 +50,6 @@ class Star {
         ctx.arc(this.pos[0], this.pos[1], this.radius, 0, 2 * Math.PI, true);
         ctx.fill();
     }
-
-    // clearShadow(ctx){
-    //     ctx.fillStyle = this.color;
-    //     ctx.shadowColor = null;
-    //     ctx.shadowBlur = null;
-    //     ctx.beginPath();
-    //     ctx.arc(this.pos[0], this.pos[1], this.radius, 0, 2 * Math.PI, true);
-    //     ctx.fill();
-    //     ctx.closePath();
-    // }
 
 }
 

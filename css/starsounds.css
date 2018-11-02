@@ -9,12 +9,19 @@ body {
     margin: 0 auto;
 }
 
+p {
+    color: white;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
 h1 {
     color: white;
     background-color: black;
     text-align: center;
     padding-top: 20px;
     font-size: 50px;
+    margin-bottom: 10px;
 }
 
 .footer {
