@@ -31,6 +31,7 @@ class Sky {
   clear(){
       this.sequence = [];
       this.lines = [];
+      this.playing = false;
       this.draw(context, true);  
   }
 
@@ -45,6 +46,9 @@ class Sky {
             length: sequence.length,
             functionToLoop: function (loop, i) {
                 setTimeout(function () {
+                    if (that.playing === false){
+                      return;
+                    }
                     let star = sequence[i];
                     star.drawSelected(context);
                     sequence[i].playSound();
