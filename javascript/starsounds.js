@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const newSky = document.getElementById('new-sky');
     const sequence = document.getElementById('sequence');
     const clearSky = document.getElementById('clear-sky');
+    const tempo = document.getElementById('tempo');
 
     const sky = new Sky();
     sky.draw(ctx);
@@ -24,6 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
         sky.playSequence(), false);
     clearSky.addEventListener('click', () => 
         sky.clear(), false);
+    tempo.addEventListener('change', ()=> 
+        sky.changeTempo(event), false);
 
 
 });

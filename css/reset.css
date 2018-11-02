@@ -31,3 +31,7 @@ button {
   cursor: pointer;
 }
 
+input[type=range]{
+  cursor: pointer;
+}
+

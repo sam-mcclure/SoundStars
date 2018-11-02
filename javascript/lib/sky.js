@@ -15,6 +15,7 @@ class Sky {
     this.sequence = [];
     this.lines = [];
     this.playing = false;
+    this.tempo = 1100;
   }
 
   addStars() {
@@ -32,7 +33,11 @@ class Sky {
       this.sequence = [];
       this.lines = [];
       this.playing = false;
-      this.draw(context, true);  
+      this.draw(context);  
+  }
+
+  changeTempo(event){
+    this.tempo = event.target.value;
   }
 
   playSequence() {
@@ -53,7 +58,7 @@ class Sky {
                     star.drawSelected(context);
                     sequence[i].playSound();
                     loop();
-                }, 1000);
+                }, that.tempo);
             },
         });
     }
@@ -71,7 +76,7 @@ class Sky {
       i++;
         setTimeout(function () {
             that.draw(context);
-        }, 1000);
+        }, that.tempo);
 
       if (i === o.length) {
           that.playing = false;
@@ -83,7 +88,7 @@ class Sky {
     loop();
   }
 
-  draw(ctx, clear) {
+  draw(ctx) {
     ctx.clearRect(0, 0, DIM_X, DIM_Y);
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, DIM_X, DIM_Y);
