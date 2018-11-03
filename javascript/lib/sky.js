@@ -16,6 +16,7 @@ class Sky {
     this.lines = [];
     this.playing = false;
     this.tempo = 1100;
+    this.snapshot = null;
   }
 
   addStars() {
@@ -27,6 +28,14 @@ class Sky {
         })
       );
     }
+  }
+
+  takeSnapshot(){
+    this.snapshot = context.getImageData(0, 0, canvas.width, canvas.height);
+  }
+
+  restoreSnapshot(){
+    context.putImageData(this.snapshot, 0, 0);
   }
 
   clear(){
@@ -194,13 +203,16 @@ class Sky {
     if (star) {
       canvas.dragging = true;
       this.dragStart = [this.firstStar.pos[0], this.firstStar.pos[1]];
+      this.takeSnapshot();
     }
   }
 
   lineDrag(canv, event) {
     if (canvas.dragging === true) {
+      this.restoreSnapshot();
       const cursorPos = this.getCursorPosition(canv, event);
-      this.drawLine(cursorPos);
+      const pos = [cursorPos.x, cursorPos.y];
+      this.drawLine(pos);
     }
   }
 
@@ -209,6 +221,7 @@ class Sky {
     canvas.dragging = false;
 
     if (this.firstStar) {
+      this.restoreSnapshot();
       this.checkClickedStar(canv, event);
       let nextStar = this.secondStar;
 
@@ -226,6 +239,7 @@ class Sky {
     this.dragStart = null;
     this.firstStar = null;
     this.secondStar = null;
+    this.snapshot = null;
   }
 }
 
