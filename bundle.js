@@ -467,8 +467,6 @@ document.addEventListener('DOMContentLoaded', () => {
         sky.clear(), false);
     tempo.addEventListener('change', ()=> 
         sky.changeTempo(event), false);
-
-
 });
 
 /***/ })
