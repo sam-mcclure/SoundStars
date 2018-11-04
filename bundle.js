@@ -184,9 +184,7 @@ class Sky {
                 }, that.tempo);
             },
         });
-    }
-    
-
+    } 
   }
 
   //https://stackoverflow.com/questions/4288759/asynchronous-for-cycle-in-javascript

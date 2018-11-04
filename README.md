@@ -1,75 +1,196 @@
-# SoundStars
+# StarSounds
 
-## Background and Overview
+[StarSounds live](https://sam-mcclure.github.io/SoundStars/)
 
-SoundStars is an audio experience that combines an audio sequencer with the visualization of making constellations.
+StarSounds is an audio experience that combines an audio sequencer with the visualization of making constellations. 
 
-Users will be presented with a sky of randomly generated stars. When clicked, a star will make a sound. Users can then draw a line from one star to another.
+A sky full of stars is randomly generated and users can click on a star to hear its sound or drag a line from one star to another to start drawing a constellation.
 
-When connected, stars will play their tones in the order they were selected. Users can connect as many stars as they want to make a star constellation that plays a sequential song.
+After drawing a constellation, a user can click the play button to hear the sounds play back in the order that the lines were drawn. Additionally, users can adjust the tempo of the playback, clear their sky, or generate a new one.
 
-Additionally, users can reset the sky to have new stars, mute the audio playback, and control the tempo.
+## Technologies
 
-## Functionality & MVP
+This project was built in one week with vanilla Javascript and HTML5 Canvas.
 
-* Sky is populated with random assortment of stars, which should twinkle
-* Each star has an associated sound that plays when clicked
-* Users can drag a line to another star to connect them
-* Sounds will play sequentially based on how they're connected
-* Users can control sound with mute and tempo, or reset the sky
-* Have some simple instructions
+## Features
 
-## Wireframes
+### A Sky full of Stars
 
-![alt text](mockup.png)
+When the page loads, 17 stars of different sizes are randomly placed around the sky. 
 
-## Architecture and Technologies
+![](images/sky.png)
 
-SoundStars will use the following technologies: 
-* `Vanilla Javascript` for structure and logic
-* `HTML5 Canvas` for DOM manipulation and rendering
-* `Web Audio API` for attaching sounds to stars and playing sequence
-* `Webpack` for bundling all files
+This was accomplished by calling an addStars method in the initialization of the sky that would make new stars at random positions: 
 
-SoundStars will also have the following files: 
+```js
+addStars() {
+    for (let i = 0; i < NUM_STARS; i++) {
+      this.stars.push(
+        new Star({
+          pos: this.randomPosition(),
+          idx: i
+        })
+      );
+    }
+  }
+```
 
-* `sky.js` : this will hold the logic for generating all of the stars, as well as keeping track of how stars are connected
-* `stars.js` : this will hold the info for a particular star, including its associated sound
-* `audio.js` : this will handle all of the audio logic, including playing all of the sounds in sequence
+To make sure that stars didn't spawn on top of each other or off the edge of the screen, several checks were implemented into the randomPosition method:
 
-## Implementation Timeline
+```js
+randomPosition() {
+    let xCoord = DIM_X * Math.random();
+    let yCoord = DIM_Y * Math.random();
 
-**Day 1:** 
-* Come up with project idea and write proposal
-* Review tutorials for Canvas and WebAudio
-* Review past vanilla Javascript projects
+    let noOverlap = false;
 
-**Day 2:**
-* Create project skeleton with npm modules and webpack
-* Get stars showing up on canvas
-* Randomly generate placement of stars
-* Add button to reload new stars
+    while (noOverlap === false) {
 
-**Day 3:**
-* Work with Web Audio to get sounds connected to the stars
-* Figure out what sounds I want to use with the stars
-* Add onClick listeners to stars to play the sound when clicked
+      let changedCoords = this.checkOverlapStars(xCoord, yCoord);
+      xCoord = changedCoords[0];
+      yCoord = changedCoords[1];
 
-**Day 4:**
-* Get lines to draw from star to star
-* Work on getting stars to play their tones in sequence after they're connected
+      if (xCoord < 50 || xCoord >= DIM_X - 50) {
+        xCoord = DIM_X * Math.random();
+      } else if (yCoord < 50 || yCoord >= DIM_Y - 50) {
+        yCoord = DIM_Y * Math.random();
+      } else {
+        noOverlap = true;
+      }
+    }
+    
 
-**Day 5:**
-* Add ability to change tempo and mute
-* Add instructions
-* Finish styling
+    return [xCoord, yCoord];
+  }
+```
 
-**Weekend:**
-* Finish styling and debugging
-* Work on bonuses, if time
+### Drawing Constellations
 
-## Bonus
+![](images/constellation.gif)
 
-* Have animation when stars are connected. Currently playing star is highlighted and the line has an indication of where the current sequence is at
-* Add option for different kinds of sounds
-* Perhaps instead of clicking, users could drive a space ship from star to star to connect them
+In order to draw a constellation, a user must click and drag from one star to another. This was challenging because the canvas doesn't know where the stars are, so I had to check the mouse position and see if it was within any of the stars that I had generated at the start
+
+```js
+getCursorPosition(canv, event) {
+    let rect = canv.getBoundingClientRect();
+    let x = event.clientX - rect.left;
+    let y = event.clientY - rect.top;
+    return { x, y };
+  }
+
+  checkClickedStar(canv, event) {
+    const cursorPos = this.getCursorPosition(canv, event);
+
+    this.stars.forEach(star => {
+      let xPos = star.pos[0];
+      let yPos = star.pos[1];
+      let r = star.radius;
+      if (
+        cursorPos.x <= xPos + r &&
+        cursorPos.x >= xPos - r &&
+        cursorPos.y <= yPos + r &&
+        cursorPos.y >= yPos - r
+      ) {
+        if (this.firstStar === null) {
+          this.firstStar = star;
+          star.playSound();
+        } else if (star !== this.firstStar) {
+          this.secondStar = star;
+          star.playSound();
+        }
+      }
+    });
+  }
+```
+
+After finding out if a star was clicked, I had to keep track of the mouse using 3 different events (mousedown, mousedrag, and mouseup). 
+
+As the mouse moved, a line had to be redrawn at each new position. When the mouse was let go of, I had to check if the final destination was at another star, and if so, add those stars to the sequence and draw the final connecting line.
+
+```js
+lineStart(canv, event) {
+    const cursorPos = this.getCursorPosition(canv, event);
+    this.checkClickedStar(canv, event);
+    let star = this.firstStar;
+    if (star) {
+      canvas.dragging = true;
+      this.dragStart = [this.firstStar.pos[0], this.firstStar.pos[1]];
+      this.takeSnapshot();
+    }
+  }
+
+  lineDrag(canv, event) {
+    if (canvas.dragging === true) {
+      this.restoreSnapshot();
+      const cursorPos = this.getCursorPosition(canv, event);
+      const pos = [cursorPos.x, cursorPos.y];
+      this.drawLine(pos);
+    }
+  }
+
+  lineEnd(canv, event) {
+    const cursorPos = this.getCursorPosition(canv, event);
+    canvas.dragging = false;
+
+    if (this.firstStar) {
+      this.restoreSnapshot();
+      this.checkClickedStar(canv, event);
+      let nextStar = this.secondStar;
+
+      if (nextStar) {
+        this.drawLine([nextStar.pos[0], nextStar.pos[1]]);
+        this.lines.push([this.firstStar, nextStar]);
+
+        if (this.sequence[this.sequence.length - 1] !== this.firstStar) {
+          this.sequence.push(this.firstStar);
+        }
+        this.sequence.push(this.secondStar);
+      }
+    }
+
+    this.dragStart = null;
+    this.firstStar = null;
+    this.secondStar = null;
+    this.snapshot = null;
+  }
+}
+  ```
+
+### Playing the sequence
+
+When a user clicks the play sequence button, the sounds play back in the order that they were clicked in, with the currently playing star highlighted with a yellow glow. The tempo of playback can be adjusted with the slider.
+
+![](images/sequence.gif)
+
+Because playing back the sounds is an asynchronous action, but I needed them to play sequentially, I had to implement an async loop.
+
+```js
+playSequence() {
+    let sequence = this.sequence;
+    let draw = this.draw;
+    let that = this;
+
+    if (this.playing === false){
+        this.playing = true;
+        this.asyncLoop({
+            length: sequence.length,
+            functionToLoop: function (loop, i) {
+                setTimeout(function () {
+                    if (that.playing === false){
+                      return;
+                    }
+                    let star = sequence[i];
+                    star.drawSelected(context);
+                    sequence[i].playSound();
+                    loop();
+                }, that.tempo);
+            },
+        });
+    } 
+  }
+```
+
+## Future Features
+
+* Add more stars/colors
+* Add more sound options
